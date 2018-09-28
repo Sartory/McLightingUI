@@ -128,7 +128,7 @@ import ReconnectingWebSocket  from 'reconnecting-websocket';  // https://github.
 
 var host = window.location.hostname;
 if (host === "localhost") {
-  host = "192.168.0.49";
+  host = "192.168.0.213";
 }
 const ws_url = "ws://" + host + ":81";
 
@@ -141,7 +141,7 @@ let ws_options = {
 
 export default {
   name: "McLightingUI",
-  
+
   components: {
     ColorPicker,
     Loader
@@ -183,7 +183,7 @@ export default {
     getModes() {
       var that = this;
       this.$http.get("//" + host + "/get_modes").then(data => {
-        // console.log("Getting modes list via REST:", data);
+        console.log("Getting modes list via REST:", data);
         data.body.forEach(item => {
           if (item.name && item.name.length > 0) {
             that.modes.push({ title: item.name, id: item.mode });
@@ -289,7 +289,7 @@ export default {
           let conn = new ReconnectingWebSocket(ws_url, "arduino", ws_options);
           console.log("Connecting to additional node", host);
           that.additional_connections.push(conn);
-  
+
           conn.onopen = () => {
             console.log("Connected to additional node", host);
             this.num_additional_connections++;
@@ -347,7 +347,7 @@ export default {
         console.log("WebSocket from server:", e.data);
         try {
           var res = JSON.parse(e.data);
-          // console.log("res", res);
+          console.log("res", res);
           if (res && res.ws2812fx_mode) {
             that.ws2812fx_mode = res.ws2812fx_mode;
           }
